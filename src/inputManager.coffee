@@ -13,6 +13,12 @@ class InputManager extends SimpleModule
   _init: ->
     @editor = @_module
 
+    @throttledTrigger = @editor.util.throttle (args...) =>
+      setTimeout =>
+        @editor.trigger args...
+      , 10
+    , 300
+
     @opts.pasteImage = 'inline' if @opts.pasteImage and typeof @opts.pasteImage != 'string'
 
     # handlers which will be called when specific key is pressed in specific node
@@ -212,26 +218,13 @@ class InputManager extends SimpleModule
 
     if @editor.util.browser.webkit and e.which == 8 and @editor.selection.rangeAtStartOf $blockEl
       # fix the span bug in webkit browsers
-      setTimeout =>
-        return unless @focused
-        $newBlockEl = @editor.util.closestBlockEl()
-        @editor.selection.save()
-        @editor.formatter.cleanNode $newBlockEl, true
-        @editor.selection.restore()
-        @editor.trigger 'valuechanged'
-      , 10
-      @typing = true
-    else if @_typing
-      clearTimeout @_typing if @_typing != true
-      @_typing = setTimeout =>
-        @editor.trigger 'valuechanged'
-        @_typing = false
-      , 200
-    else
-      setTimeout =>
-        @editor.trigger 'valuechanged'
-      , 10
-      @_typing = true
+      return unless @focused
+      $newBlockEl = @editor.util.closestBlockEl()
+      @editor.selection.save()
+      @editor.formatter.cleanNode $newBlockEl, true
+      @editor.selection.restore()
+
+    @throttledTrigger 'valuechanged', ['typing']
 
     null
 
@@ -405,10 +398,10 @@ class InputManager extends SimpleModule
 
   _onInput: (e) ->
     if @editor.util.browser.firefox and e.originalEvent.isComposing
-      @editor.trigger 'valuechanged', ['composing']
+      @throttledTrigger 'valuechanged', ['composing']
   _onCompositionsend: (e) ->
     if @editor.util.browser.firefox
-      @editor.trigger 'valuechanged', ['composing']
+      @throttledTrigger 'valuechanged', ['composing']
 
   addKeystrokeHandler: (key, node, handler) ->
     @_keystrokeHandlers[key] = {} unless @_keystrokeHandlers[key]

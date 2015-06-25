@@ -402,6 +402,65 @@ $simditor-button-height: 40px;
           ul {
             min-width: 240px;
           }
+
+          .color-list {
+            padding: 10px 10px;
+            overflow: hidden;
+
+            li {
+              float: left;
+              margin: 0 10px 0 0;
+
+              .font-color {
+                display: block;
+                width: 16px;
+                height: 16px;
+                background: #dfdfdf;
+                border-radius: 2px;
+
+                &:hover {
+                  opacity: 0.8;
+                }
+
+                &.font-color-default {
+                  background: #333333;
+                }
+              }
+
+              $font-colors: #E33737 #e28b41 #c8a732 #209361 #418caf #aa8773 #999999;
+              $i: 1;
+              @each $color in $font-colors {
+                .font-color-#{$i} {
+                  background: $color;
+                }
+                $i: $i + 1;
+              }
+            }
+          }
+
+          .align-list {
+            padding: 10px 10px;
+            overflow: hidden;
+
+            li {
+              float: left;
+              margin: 0 20px 0 0;
+            }
+
+            a {
+              width: 46px;
+              outline: none;
+              color: #333333;
+              font-size: 15px;
+              text-align: center;
+              text-decoration: none;
+              opacity: 0.6;
+
+              &:hover {
+                opacity: 1;
+              }
+            }
+          }
         }
       }
 

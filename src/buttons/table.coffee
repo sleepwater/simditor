@@ -205,6 +205,27 @@ class TableButton extends Button
       </div>
       <div class="menu-edit-table">
         <ul>
+          <li>
+            <ul class="color-list">
+              <li><a href="javascript:;" class="font-color font-color-1" data-color=""></a></li>
+              <li><a href="javascript:;" class="font-color font-color-2" data-color=""></a></li>
+              <li><a href="javascript:;" class="font-color font-color-3" data-color=""></a></li>
+              <li><a href="javascript:;" class="font-color font-color-4" data-color=""></a></li>
+              <li><a href="javascript:;" class="font-color font-color-5" data-color=""></a></li>
+              <li><a href="javascript:;" class="font-color font-color-6" data-color=""></a></li>
+              <li><a href="javascript:;" class="font-color font-color-7" data-color=""></a></li>
+              <li><a href="javascript:;" class="font-color font-color-default" data-color=""></a></li>
+            </ul>
+          </li>
+          <li><span class="separator"></span></li>
+          <li>
+            <ul class="align-list">
+              <li><a href="javascript:;" class="font-align" data-align="left"><span class="simditor-icon simditor-icon-align-left"></span></a></li>
+              <li><a href="javascript:;" class="font-align" data-align="center"><span class="simditor-icon simditor-icon-align-center"></span></a></li>
+              <li><a href="javascript:;" class="font-align" data-align="right"><span class="simditor-icon simditor-icon-align-right"></span></a></li>
+            </ul>
+          </li>
+          <li><span class="separator"></span></li>
           <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="deleteRow"><span>#{ @_t 'deleteRow' }</span></a></li>
           <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="insertRowAbove"><span>#{ @_t 'insertRowAbove' } ( Ctrl + Alt + ↑ )</span></a></li>
           <li><a tabindex="-1" unselectable="on" class="menu-item" href="javascript:;" data-param="insertRowBelow"><span>#{ @_t 'insertRowBelow' } ( Ctrl + Alt + ↓ )</span></a></li>
@@ -256,6 +277,57 @@ class TableButton extends Button
       @editor.selection.setRangeAtStartOf $table.find('th:first')
       @editor.trigger 'valuechanged'
       false
+
+    @editMenu.on 'mousedown', '.color-list', (e) ->
+      false
+
+    @editMenu.on 'click', '.font-color', (e) =>
+      @wrapper.removeClass('menu-on');
+      $link = $(e.currentTarget);
+
+      if $link.hasClass 'font-color-default'
+        $p = @editor.body.find 'p, li'
+        return unless $p.length > 0
+        rgb = window.getComputedStyle($p[0], null).getPropertyValue('color')
+        hex = @_convertRgbToHex rgb
+      else
+        rgb = window.getComputedStyle($link[0], null).getPropertyValue('background-color')
+        hex = @_convertRgbToHex rgb
+
+      range = @editor.selection.getRange()
+      $td = $(range.commonAncestorContainer).closest('td, th')
+      return unless $td.length > 0
+
+      $td.css('background-color', hex)
+
+    @editMenu.on 'mousedown', '.align-list', (e) ->
+      false
+
+    @editMenu.on 'click', '.font-align', (e) =>
+      @wrapper.removeClass('menu-on');
+      $link = $(e.currentTarget);
+
+      align = $link.data 'align'
+      align = 'left' unless align in ['left', 'center', 'right']
+
+      range = @editor.selection.getRange()
+      $td = $(range.commonAncestorContainer).closest('td, th')
+      return unless $td.length > 0
+
+      $td.css('text-align', align)
+
+  _convertRgbToHex:(rgb) ->
+    re = /rgb\((\d+),\s?(\d+),\s?(\d+)\)/g
+    match = re.exec rgb
+    return '' unless match
+
+    rgbToHex = (r, g, b) ->
+      componentToHex = (c) ->
+        hex = c.toString(16)
+        if hex.length == 1 then '0' + hex else hex
+      "#" + componentToHex(r) + componentToHex(g) + componentToHex(b)
+
+    rgbToHex match[1] * 1, match[2] * 1, match[3] * 1
 
   createTable: (row, col, phBr) ->
     $table = $('<table/>')

@@ -156,7 +156,7 @@
   line-height: 1.6;
   border: none;
   padding: 22px 15px 40px;
-  min-height: 300px;
+  min-height: 380px;
   outline: none;
   background: transparent;
   resize: none;
@@ -197,7 +197,7 @@
 }
 .simditor .simditor-body {
   padding: 22px 15px 40px;
-  min-height: 300px;
+  min-height: 380px;
   outline: none;
   cursor: text;
   position: relative;
@@ -480,6 +480,68 @@
 }
 .simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table ul {
   min-width: 240px;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list {
+  padding: 5px 10px;
+  overflow: hidden;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li {
+  float: left;
+  margin: 0 10px 0 0;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: #dfdfdf;
+  border-radius: 2px;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color:hover {
+  opacity: 0.8;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color.font-color-default {
+  background: #333333;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color-1 {
+  background: #E33737;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color-2 {
+  background: #e28b41;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color-3 {
+  background: #c8a732;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color-4 {
+  background: #209361;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color-5 {
+  background: #418caf;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color-6 {
+  background: #aa8773;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .color-list li .font-color-7 {
+  background: #999999;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .align-list {
+  padding: 5px 10px;
+  overflow: hidden;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .align-list li {
+  float: left;
+  margin: 0 20px 0 0;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .align-list a {
+  width: 46px;
+  outline: none;
+  color: #333333;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none;
+  opacity: 0.6;
+}
+.simditor .simditor-toolbar .toolbar-menu.toolbar-menu-table .menu-edit-table .align-list a:hover {
+  opacity: 1;
 }
 .simditor .simditor-toolbar .toolbar-menu.toolbar-menu-image .menu-item-upload-image {
   position: relative;

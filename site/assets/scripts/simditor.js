@@ -329,7 +329,9 @@ Formatter = (function(superClass) {
       h1: ['margin-left'],
       h2: ['margin-left'],
       h3: ['margin-left'],
-      h4: ['margin-left']
+      h4: ['margin-left'],
+      td: ['background-color', 'text-align'],
+      th: ['background-color', 'text-align']
     };
     return this.editor.body.on('click', 'a', function(e) {
       return false;
@@ -532,7 +534,7 @@ Formatter = (function(superClass) {
         continue;
       }
       if (ref1 = pair[0], indexOf.call(allowedStyles, ref1) >= 0) {
-        styles[$.trim(pair[0])] = $trim(pair[1]);
+        styles[$.trim(pair[0])] = $.trim(pair[1]);
       }
     }
     if (Object.keys(styles).length > 0) {
@@ -4931,7 +4933,7 @@ TableButton = (function(superClass) {
 
   TableButton.prototype.renderMenu = function() {
     var $table;
-    $("<div class=\"menu-create-table\">\n</div>\n<div class=\"menu-edit-table\">\n  <ul>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteRow\"><span>" + (this._t('deleteRow')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertRowAbove\"><span>" + (this._t('insertRowAbove')) + " ( Ctrl + Alt + ↑ )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertRowBelow\"><span>" + (this._t('insertRowBelow')) + " ( Ctrl + Alt + ↓ )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteCol\"><span>" + (this._t('deleteColumn')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertColLeft\"><span>" + (this._t('insertColumnLeft')) + " ( Ctrl + Alt + ← )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertColRight\"><span>" + (this._t('insertColumnRight')) + " ( Ctrl + Alt + → )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteTable\"><span>" + (this._t('deleteTable')) + "</span></a></li>\n  </ul>\n</div>").appendTo(this.menuWrapper);
+    $("<div class=\"menu-create-table\">\n</div>\n<div class=\"menu-edit-table\">\n  <ul>\n    <li>\n      <ul class=\"color-list\">\n        <li><a href=\"javascript:;\" class=\"font-color font-color-1\" data-color=\"\"></a></li>\n        <li><a href=\"javascript:;\" class=\"font-color font-color-2\" data-color=\"\"></a></li>\n        <li><a href=\"javascript:;\" class=\"font-color font-color-3\" data-color=\"\"></a></li>\n        <li><a href=\"javascript:;\" class=\"font-color font-color-4\" data-color=\"\"></a></li>\n        <li><a href=\"javascript:;\" class=\"font-color font-color-5\" data-color=\"\"></a></li>\n        <li><a href=\"javascript:;\" class=\"font-color font-color-6\" data-color=\"\"></a></li>\n        <li><a href=\"javascript:;\" class=\"font-color font-color-7\" data-color=\"\"></a></li>\n        <li><a href=\"javascript:;\" class=\"font-color font-color-default\" data-color=\"\"></a></li>\n      </ul>\n    </li>\n    <li><span class=\"separator\"></span></li>\n    <li>\n      <ul class=\"align-list\">\n        <li><a href=\"javascript:;\" class=\"font-align\" data-align=\"left\"><span class=\"simditor-icon simditor-icon-align-left\"></span></a></li>\n        <li><a href=\"javascript:;\" class=\"font-align\" data-align=\"center\"><span class=\"simditor-icon simditor-icon-align-center\"></span></a></li>\n        <li><a href=\"javascript:;\" class=\"font-align\" data-align=\"right\"><span class=\"simditor-icon simditor-icon-align-right\"></span></a></li>\n      </ul>\n    </li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteRow\"><span>" + (this._t('deleteRow')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertRowAbove\"><span>" + (this._t('insertRowAbove')) + " ( Ctrl + Alt + ↑ )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertRowBelow\"><span>" + (this._t('insertRowBelow')) + " ( Ctrl + Alt + ↓ )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteCol\"><span>" + (this._t('deleteColumn')) + "</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertColLeft\"><span>" + (this._t('insertColumnLeft')) + " ( Ctrl + Alt + ← )</span></a></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"insertColRight\"><span>" + (this._t('insertColumnRight')) + " ( Ctrl + Alt + → )</span></a></li>\n    <li><span class=\"separator\"></span></li>\n    <li><a tabindex=\"-1\" unselectable=\"on\" class=\"menu-item\" href=\"javascript:;\" data-param=\"deleteTable\"><span>" + (this._t('deleteTable')) + "</span></a></li>\n  </ul>\n</div>").appendTo(this.menuWrapper);
     this.createMenu = this.menuWrapper.find('.menu-create-table');
     this.editMenu = this.menuWrapper.find('.menu-edit-table');
     $table = this.createTable(6, 6).appendTo(this.createMenu);
@@ -4954,7 +4956,7 @@ TableButton = (function(superClass) {
         return $(e.currentTarget).find('td, th').removeClass('selected');
       };
     })(this));
-    return this.createMenu.on('mousedown', 'td, th', (function(_this) {
+    this.createMenu.on('mousedown', 'td, th', (function(_this) {
       return function(e) {
         var $closestBlock, $td, $tr, colNum, rowNum;
         _this.wrapper.removeClass('menu-on');
@@ -4981,6 +4983,82 @@ TableButton = (function(superClass) {
         return false;
       };
     })(this));
+    this.editMenu.on('mousedown', '.color-list', function(e) {
+      return false;
+    });
+    this.editMenu.on('click', '.font-color', (function(_this) {
+      return function(e) {
+        var $link, $p, $td, hex, range, rgb;
+        _this.wrapper.removeClass('menu-on');
+        $link = $(e.currentTarget);
+        if ($link.hasClass('font-color-default')) {
+          $p = _this.editor.body.find('p, li');
+          if (!($p.length > 0)) {
+            return;
+          }
+          rgb = window.getComputedStyle($p[0], null).getPropertyValue('color');
+          hex = _this._convertRgbToHex(rgb);
+        } else {
+          rgb = window.getComputedStyle($link[0], null).getPropertyValue('background-color');
+          hex = _this._convertRgbToHex(rgb);
+        }
+        range = _this.editor.selection.getRange();
+        $td = $(range.commonAncestorContainer).closest('td, th');
+        if (!($td.length > 0)) {
+          return;
+        }
+        $td.css('background-color', hex);
+        if (!_this.editor.util.support.oninput) {
+          return _this.editor.trigger('valuechanged');
+        }
+      };
+    })(this));
+    this.editMenu.on('mousedown', '.align-list', function(e) {
+      return false;
+    });
+    return this.editMenu.on('click', '.font-align', (function(_this) {
+      return function(e) {
+        var $link, $td, align, range;
+        _this.wrapper.removeClass('menu-on');
+        $link = $(e.currentTarget);
+        align = $link.data('align');
+        if (align !== 'left' && align !== 'center' && align !== 'right') {
+          align = 'left';
+        }
+        range = _this.editor.selection.getRange();
+        $td = $(range.commonAncestorContainer).closest('td, th');
+        if (!($td.length > 0)) {
+          return;
+        }
+        $td.css('text-align', align);
+        if (!_this.editor.util.support.oninput) {
+          return _this.editor.trigger('valuechanged');
+        }
+      };
+    })(this));
+  };
+
+  TableButton.prototype._convertRgbToHex = function(rgb) {
+    var match, re, rgbToHex;
+    re = /rgb\((\d+),\s?(\d+),\s?(\d+)\)/g;
+    match = re.exec(rgb);
+    if (!match) {
+      return '';
+    }
+    rgbToHex = function(r, g, b) {
+      var componentToHex;
+      componentToHex = function(c) {
+        var hex;
+        hex = c.toString(16);
+        if (hex.length === 1) {
+          return '0' + hex;
+        } else {
+          return hex;
+        }
+      };
+      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    };
+    return rgbToHex(match[1] * 1, match[2] * 1, match[3] * 1);
   };
 
   TableButton.prototype.createTable = function(row, col, phBr) {

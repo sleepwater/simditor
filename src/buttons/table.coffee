@@ -299,6 +299,8 @@ class TableButton extends Button
       return unless $td.length > 0
 
       $td.css('background-color', hex)
+      unless @editor.util.support.oninput
+        @editor.trigger 'valuechanged'
 
     @editMenu.on 'mousedown', '.align-list', (e) ->
       false
@@ -315,6 +317,8 @@ class TableButton extends Button
       return unless $td.length > 0
 
       $td.css('text-align', align)
+      unless @editor.util.support.oninput
+        @editor.trigger 'valuechanged'
 
   _convertRgbToHex:(rgb) ->
     re = /rgb\((\d+),\s?(\d+),\s?(\d+)\)/g
